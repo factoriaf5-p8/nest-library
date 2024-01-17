@@ -14,4 +14,14 @@ export class BookService {
     //insert into table Book values();
     return book;
   }
+  updateBook(bookId: string, book: any) {
+    console.log('update', book);
+
+    return `updateBook funciona con el bookId = ${bookId}`;
+    //select * from book where id = bookId
+  }
+  deleteBook(bookId: string) {
+    return `deleteBook funciona con el bookId = ${bookId}`;
+    //select * from book where id = bookId
+  }
 }

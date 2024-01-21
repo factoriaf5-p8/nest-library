@@ -1,19 +1,9 @@
 import { Injectable } from '@nestjs/common';
-import { InjectRepository } from '@nestjs/typeorm';
-import { Repository } from 'typeorm';
-import { Book } from './book.entity';
 
 @Injectable()
 export class BookService {
-  constructor(
-    @InjectRepository(Book)
-    private bookRepository: Repository<Book>,
-  ) {}
-  findAll(limit: string): Promise<Book[]> {
-    let options = {};
-    if (limit) options = { take: +limit };
-    return this.bookRepository.find(options);
-    // return `findAll funciona límite de ${limit} registros`;
+  findAll(limit: string) {
+    return `findAll funciona límite de ${limit} registros`;
   }
   findBook(bookId: string) {
     return `findBook funciona con el bookId = ${bookId}`;

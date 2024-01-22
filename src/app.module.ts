@@ -6,9 +6,14 @@ import { TypeOrmModule } from '@nestjs/typeorm';
 import { Book } from './book/book.entity';
 import { User } from './user/user.entity';
 import { UserModule } from './user/user.module';
+import { ConfigModule } from '@nestjs/config';
+import config from './config/config';
 
 @Module({
   imports: [
+    ConfigModule.forRoot({
+      load: [config],
+    }),
     TypeOrmModule.forRoot({
       type: 'mysql',
       host: 'localhost',

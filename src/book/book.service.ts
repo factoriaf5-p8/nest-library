@@ -2,14 +2,14 @@ import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository, FindManyOptions } from 'typeorm';
 import { Book } from './book.entity';
-import { BookDto } from './dtos/create-book.dto';
+import { CreateBookDto, UpdateBookDto } from './dtos';
 
 @Injectable()
 export class BookService {
   constructor(
     @InjectRepository(Book)
     private bookRepository: Repository<Book>,
-  ) { }
+  ) {}
   async findAll(limit: string): Promise<Book[]> {
     let options: FindManyOptions<Book>;
     if (limit) options = { take: +limit };
@@ -21,13 +21,13 @@ export class BookService {
     //return `findBook funciona con el bookId = ${bookId}`;
     //select * from book where id = bookId
   }
-  async createBook(book: BookDto): Promise<Book> {
+  async createBook(book: CreateBookDto): Promise<Book> {
     // console.log(book);
     //insert into table Book values();
     // return book;
     return this.bookRepository.save(book);
   }
-  async updateBook(bookId: string, book: BookDto) {
+  async updateBook(bookId: string, book: UpdateBookDto) {
     // console.log('update', book);
 
     // return `updateBook funciona con el bookId = ${bookId}`;

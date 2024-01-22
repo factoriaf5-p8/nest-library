@@ -14,7 +14,7 @@ import { CreateBookDto, UpdateBookDto } from './dtos';
 
 @Controller('books')
 export class BookController {
-  constructor(private readonly bookService: BookService) { }
+  constructor(private readonly bookService: BookService) {}
 
   @Get()
   findAll(@Query('limit') limit: string) {

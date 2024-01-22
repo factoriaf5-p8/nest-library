@@ -1,33 +1,32 @@
 import { Injectable } from '@nestjs/common';
+import { CreateBookDto } from './dto/create-book.dto';
+import { UpdateBookDto } from './dto/update-book.dto';
+import { Book } from './entities/book.schema';
 import { InjectModel } from '@nestjs/mongoose';
 import { Model } from 'mongoose';
-import { Book } from './book.schema';
 
 @Injectable()
 export class BookService {
   constructor(@InjectModel(Book.name) private bookModel: Model<Book>) {}
+  create(createBookDto: CreateBookDto) {
+    return this.bookModel.create(createBookDto);
+    // return 'This action adds a new book';
+  }
 
-  async findAll(limit: string): Promise<Book[]> {
-    return this.bookModel.find().limit(+limit).exec();
-    // return `findAll funciona límite de ${limit} registros`;
+  findAll() {
+    return this.bookModel.find().exec();
+    // return `This action returns all book`;
   }
-  findBook(bookId: string) {
-    return `findBook funciona con el bookId = ${bookId}`;
-    //select * from book where id = bookId
-  }
-  createBook(book: any) {
-    console.log(book);
-    //insert into table Book values();
-    return book;
-  }
-  updateBook(bookId: string, book: any) {
-    console.log('update', book);
 
-    return `updateBook funciona con el bookId = ${bookId}`;
-    //select * from book where id = bookId
+  findOne(id: number) {
+    return `This action returns a #${id} book`;
   }
-  deleteBook(bookId: string) {
-    return `deleteBook funciona con el bookId = ${bookId}`;
-    //select * from book where id = bookId
+
+  update(id: number, updateBookDto: UpdateBookDto) {
+    return `This action updates a #${id} book`;
+  }
+
+  remove(id: number) {
+    return `This action removes a #${id} book`;
   }
 }

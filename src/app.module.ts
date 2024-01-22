@@ -21,7 +21,7 @@ import config from './config/config';
       username: 'root',
       password: '',
       database: 'library',
-      entities: [Book, User],
+      entities: [__dirname + '/**/*.entity{.ts,.js}'],
       synchronize: true,
     }),
     BookModule,

@@ -2,14 +2,14 @@ import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository, FindManyOptions } from 'typeorm';
 import { Book } from './book.entity';
-import { BookDto } from './book.dto';
+import { BookDto } from './dtos/create-book.dto';
 
 @Injectable()
 export class BookService {
   constructor(
     @InjectRepository(Book)
     private bookRepository: Repository<Book>,
-  ) {}
+  ) { }
   async findAll(limit: string): Promise<Book[]> {
     let options: FindManyOptions<Book>;
     if (limit) options = { take: +limit };

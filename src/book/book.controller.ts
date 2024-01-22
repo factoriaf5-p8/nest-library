@@ -9,11 +9,12 @@ import {
   Delete,
 } from '@nestjs/common';
 import { BookService } from './book.service';
-import { BookDto } from './book.dto';
+import { CreateBookDto, UpdateBookDto } from './dtos';
+// import { UpdateBookDto } from './dtos/update-book.dto';
 
 @Controller('books')
 export class BookController {
-  constructor(private readonly bookService: BookService) {}
+  constructor(private readonly bookService: BookService) { }
 
   @Get()
   findAll(@Query('limit') limit: string) {
@@ -26,12 +27,12 @@ export class BookController {
   }
 
   @Post()
-  createBook(@Body() newBook: BookDto) {
+  createBook(@Body() newBook: CreateBookDto) {
     return this.bookService.createBook(newBook);
   }
 
   @Put(':bookId')
-  updateBook(@Param('bookId') bookId: string, @Body() book: BookDto) {
+  updateBook(@Param('bookId') bookId: string, @Body() book: UpdateBookDto) {
     return this.bookService.updateBook(bookId, book);
   }
   @Delete(':bookId')

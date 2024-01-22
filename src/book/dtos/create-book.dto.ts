@@ -1,4 +1,4 @@
-export class BookDto {
+export class CreateBookDto {
   title: string; // varchar(255) NOT NULL,
   genre: string; // varchar(255) NOT NULL,
   description: string; // varchar(255) NOT NULL,

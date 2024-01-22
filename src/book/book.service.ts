@@ -1,9 +1,15 @@
 import { Injectable } from '@nestjs/common';
+import { InjectModel } from '@nestjs/mongoose';
+import { Model } from 'mongoose';
+import { Book } from './book.schema';
 
 @Injectable()
 export class BookService {
-  findAll(limit: string) {
-    return `findAll funciona límite de ${limit} registros`;
+  constructor(@InjectModel(Book.name) private bookModel: Model<Book>) {}
+
+  async findAll(limit: string): Promise<Book[]> {
+    return this.bookModel.find().limit(+limit).exec();
+    // return `findAll funciona límite de ${limit} registros`;
   }
   findBook(bookId: string) {
     return `findBook funciona con el bookId = ${bookId}`;

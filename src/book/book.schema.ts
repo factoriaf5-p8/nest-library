@@ -18,7 +18,7 @@ export class Book {
   @Prop()
   publisher: string;
   @Prop()
-  pages: string;
+  pages: number;
   @Prop()
   imageUrl: string;
   @Prop()

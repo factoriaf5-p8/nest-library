@@ -1,13 +1,13 @@
 import { Injectable } from '@nestjs/common';
 import { CreateBookDto } from './dto/create-book.dto';
 import { UpdateBookDto } from './dto/update-book.dto';
-import { Book } from './entities/book.schema';
+import { Book } from './schemas/book.schema';
 import { InjectModel } from '@nestjs/mongoose';
 import { Model } from 'mongoose';
 
 @Injectable()
 export class BookService {
-  constructor(@InjectModel(Book.name) private bookModel: Model<Book>) {}
+  constructor(@InjectModel(Book.name) private bookModel: Model<Book>) { }
   create(createBookDto: CreateBookDto) {
     return this.bookModel.create(createBookDto);
     // return 'This action adds a new book';

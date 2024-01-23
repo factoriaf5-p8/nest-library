@@ -1,8 +1,8 @@
 import { Injectable } from '@nestjs/common';
 import { CreateUserDto } from './dto/create-user.dto';
 // import { UpdateUserDto } from './dto/update-user.dto';
-import { InjectModel } from '@nestjs/mongoose';
-import { Model } from 'mongoose';
+import { InjectConnection, InjectModel } from '@nestjs/mongoose';
+import mongoose, { Model } from 'mongoose';
 import { User, UserDocument } from './schemas/user.schema';
 import { Book } from '../book/book.schema';
 import { Loan } from './schemas/loan.schema';
@@ -10,6 +10,7 @@ import { Loan } from './schemas/loan.schema';
 @Injectable()
 export class UserService {
   constructor(
+    @InjectConnection() private readonly connection: mongoose.Connection,
     @InjectModel(User.name) private userModel: Model<User>,
     @InjectModel(Book.name) private bookModel: Model<User>,
   ) {}
@@ -38,17 +39,29 @@ export class UserService {
   }
 
   async borrowBook(bookId: string, userId: string) {
-    const user: UserDocument = await this.userModel.findById(userId);
-    console.log(user);
+    const transactionSession = await this.connection.startSession();
+    try {
+      transactionSession.startTransaction();
+      const user: UserDocument = await this.userModel.findById(userId);
+      console.log(user);
 
-    const book: Book = await this.bookModel.findById(bookId);
-    if (book.available) {
-      const loan: Loan = new Loan();
-      loan.ISBN = book.ISBN;
-      loan.book = book;
+      const book: Book = await this.bookModel.findByIdAndUpdate(bookId, {
+        available: false,
+      });
+      if (book.available) {
+        const loan: Loan = new Loan();
+        loan.ISBN = book.ISBN;
+        loan.book = book;
 
-      user.loans.push(loan);
-      return user.save();
+        user.loans.push(loan);
+        const result = await user.save();
+        transactionSession.commitTransaction();
+        return result;
+      }
+    } catch (error) {
+      transactionSession.abortTransaction();
+    } finally {
+      transactionSession.endSession();
     }
     // return user;
   }

@@ -1,4 +1,5 @@
-import { Entity, Column, PrimaryGeneratedColumn } from 'typeorm';
+import { Loan } from '../loan/entities/loan.entity';
+import { Entity, Column, PrimaryGeneratedColumn, OneToMany } from 'typeorm';
 
 @Entity()
 export class Book {
@@ -28,4 +29,7 @@ export class Book {
 
   @Column({ default: true })
   available: boolean; // tinyint NOT NULL,
+
+  @OneToMany(() => Loan, (loans: Loan) => loans.book)
+  loans: Loan[];
 }

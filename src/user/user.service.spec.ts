@@ -3,17 +3,29 @@ import { UserService } from './user.service';
 import { User } from './user.entity';
 import { getRepositoryToken } from '@nestjs/typeorm';
 import { CreateUserDto } from './create-user.dto';
+
+const mockUsers: User[] = [
+  {
+    id: 1,
+    username: 'laura',
+    email: 'laura@mail.com',
+    password: '4321',
+    photo: '',
+    role: 'user',
+    loans: [],
+  },
+];
 describe('UserService', () => {
   let service: UserService;
   const mockRepositoryUser = {
     save: jest.fn().mockImplementation((createUserDTO: CreateUserDto) => {
       return Promise.resolve({
         id: 1,
-        loan: [],
+        loans: [],
         ...createUserDTO,
       });
     }),
-    find: jest.fn() //FALTA LA IMPLEMENTACION
+    find: jest.fn().mockImplementation(() => mockUsers),
   };
   beforeEach(async () => {
     const module: TestingModule = await Test.createTestingModule({
@@ -42,18 +54,12 @@ describe('UserService', () => {
         role: 'user',
       };
       const result = await service.create(createUserDto);
-      expect(result).toMatchObject({
-        id: 1,
-        username: 'laura',
-        email: 'laura@mail.com',
-        password: '4321',
-        photo: '',
-        role: 'user',
-        loan: [],
-        // id: expect.any(Number),
-      });
-      //TO-DO otro TEST: hacer el test para probar userService.findAll()
-      
+      expect(result).toMatchObject(mockUsers[0]);
     });
+    //TO-DO otro TEST: hacer el test para probar userService.findAll()
+    describe('method findAll', () =>
+      it('should return a list of users', async () => {
+        expect(await service.findAll()).toMatchObject(mockUsers);
+      }));
   });
 });

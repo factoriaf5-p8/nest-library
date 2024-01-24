@@ -1,4 +1,4 @@
-import { Loan } from 'src/loan/entities/loan.entity';
+import { Loan } from '../loan/entities/loan.entity';
 import { Entity, Column, PrimaryGeneratedColumn, OneToMany } from 'typeorm';
 
 @Entity()

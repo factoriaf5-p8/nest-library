@@ -13,6 +13,7 @@ export class Loan {
     default: () => new Date(Date.now() + 30 * 24 * 60 * 60 * 1000),
   })
   returnDate: string;
+  //select * from loan join book on loan._id = book._id
   @Prop({ type: mongoose.Schema.Types.ObjectId, ref: 'Book' })
   book: Book;
 }

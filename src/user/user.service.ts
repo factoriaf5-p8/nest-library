@@ -42,12 +42,14 @@ export class UserService {
     const transactionSession = await this.connection.startSession();
     try {
       transactionSession.startTransaction();
+      //busco el usuario
       const user: UserDocument = await this.userModel.findById(userId);
       console.log(user);
-
+      // busco el libro y actualizo el flag available
       const book: Book = await this.bookModel.findByIdAndUpdate(bookId, {
         available: false,
       });
+      // si el libro está disponible lo presto. Actualizar el array de loans con un nuevo préstamo.
       if (book.available) {
         const loan: Loan = new Loan();
         loan.ISBN = book.ISBN;
@@ -57,6 +59,8 @@ export class UserService {
         const result = await user.save();
         transactionSession.commitTransaction();
         return result;
+      } else {
+        throw new Error('libro no disponible');
       }
     } catch (error) {
       transactionSession.abortTransaction();

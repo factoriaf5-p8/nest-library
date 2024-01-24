@@ -5,9 +5,9 @@ import {
   Column,
   PrimaryGeneratedColumn,
   ManyToOne,
-  EntitySubscriberInterface,
-  EventSubscriber,
-  InsertEvent,
+  // EntitySubscriberInterface,
+  // EventSubscriber,
+  // InsertEvent,
 } from 'typeorm';
 
 @Entity()

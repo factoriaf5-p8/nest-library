@@ -3,9 +3,10 @@ import { LoanService } from './loan.service';
 import { LoanController } from './loan.controller';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { Loan } from './entities/loan.entity';
+import { Book } from 'src/book/book.entity';
 
 @Module({
-  imports: [TypeOrmModule.forFeature([Loan])],
+  imports: [TypeOrmModule.forFeature([Loan]), TypeOrmModule.forFeature([Book])],
   controllers: [LoanController],
   providers: [LoanService],
 })

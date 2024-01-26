@@ -20,7 +20,7 @@ export class LoanService {
     const availableBook = await this.bookRepository.findOne({
       where: { id: createLoanDto.book.id, available: true },
     });
-    // console.log(availableBook);
+    console.log(availableBook);
 
     if (availableBook) {
       return this.loanRepository.save(createLoanDto);

@@ -6,6 +6,7 @@ import { Loan } from './entities/loan.entity';
 import { CreateLoanDto } from './dto/create-loan.dto';
 import { Book } from '../book/book.entity';
 import { User } from '../user/user.entity';
+import { HttpException } from '@nestjs/common';
 
 describe('LoanService', () => {
   let service: LoanService;
@@ -19,6 +20,19 @@ describe('LoanService', () => {
       });
     }),
   };
+  const mockRepositoryBook: Partial<Repository<Book>> = {
+    findOne: jest
+      .fn()
+      .mockImplementation(
+        (condition: { where: { id: number; available: boolean } }) => {
+          if (condition.where.id == 2) {
+            return Promise.resolve(false);
+          } else {
+            return Promise.resolve(new Book());
+          }
+        },
+      ),
+  };
   beforeEach(async () => {
     const module: TestingModule = await Test.createTestingModule({
       providers: [
@@ -26,6 +40,10 @@ describe('LoanService', () => {
         {
           provide: getRepositoryToken(Loan),
           useValue: mockRepositoryLoan,
+        },
+        {
+          provide: getRepositoryToken(Book),
+          useValue: mockRepositoryBook,
         },
       ],
     }).compile();
@@ -37,12 +55,25 @@ describe('LoanService', () => {
     expect(service).toBeDefined();
   });
   it('borrowBook() should return a borrowed book', async () => {
-
+    const book = new Book();
+    book.id = 1;
     const createLoanDto = {
-      book: new Book(),
+      book,
       user: new User(),
     };
     const result = await service.borrowBook(createLoanDto);
     expect(result).toMatchObject({ id: 1 });
+  });
+  it('borrowBook() should throw an http exception object with message: "book not available"', async () => {
+    const book = new Book();
+    book.id = 2;
+    const createLoanDto = {
+      book,
+      user: new User(),
+    };
+    // const result = await service.borrowBook(createLoanDto);
+    expect(async () => await service.borrowBook(createLoanDto)).rejects.toThrow(
+      new HttpException('book not available', 404),
+    );
   });
 });

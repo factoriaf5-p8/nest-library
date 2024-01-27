@@ -17,7 +17,7 @@ export class UserService {
     return `find user with id ${userId}`;
   }
   create(user: CreateUserDto) {
-    return this.userRepository.save(user);
+    return this.userRepository.save(this.userRepository.create(user));
   }
   signin(user: any) {
     return `user with name ${user.email} exists`;

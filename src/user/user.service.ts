@@ -3,7 +3,7 @@ import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 import { User } from './user.entity';
 import { CreateUserDto } from './dtos/create-user.dto';
-import { SigninUserDto } from './dtos/signin-user.dto';
+// import { SigninUserDto } from './dtos/signin-user.dto';
 
 @Injectable()
 export class UserService {
@@ -24,9 +24,9 @@ export class UserService {
   removeUser(userId: string) {
     return `removed user ${userId}`;
   }
-  signin(user: SigninUserDto) {
-    return { accessToken: 'token' };
-  }
+  // signin(user: SigninUserDto) {
+  //   return { accessToken: 'token' };
+  // }
   updateUser(userId: string, user: any) {
     return `updated user ${userId} with ${JSON.stringify(user)}`;
   }

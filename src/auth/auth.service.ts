@@ -1,7 +1,7 @@
 import { Injectable, UnauthorizedException } from '@nestjs/common';
 import { compare } from 'bcrypt';
 import { UserService } from '../user/user.service';
-import { SigninUserDto } from '../user/dtos/signin-user.dto';
+import { SigninUserDto } from './dtos/signin-user.dto';
 
 @Injectable()
 export class AuthService {
@@ -19,7 +19,11 @@ export class AuthService {
         dbUser.password,
       );
     if (!user || !passwordVerified) throw new UnauthorizedException();
-
-    return dbUser;
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
+    const { password, ...result } = dbUser;
+    return result;
+  }
+  signin(user: SigninUserDto) {
+    return { accessToken: 'token' };
   }
 }

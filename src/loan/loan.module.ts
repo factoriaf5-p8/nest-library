@@ -3,7 +3,7 @@ import { LoanService } from './loan.service';
 import { LoanController } from './loan.controller';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { Loan } from './entities/loan.entity';
-import { Book } from 'src/book/book.entity';
+import { Book } from '../book/book.entity';
 
 @Module({
   imports: [TypeOrmModule.forFeature([Loan]), TypeOrmModule.forFeature([Book])],

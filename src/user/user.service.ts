@@ -4,7 +4,7 @@ import { CreateUserDto } from './dto/create-user.dto';
 import { InjectConnection, InjectModel } from '@nestjs/mongoose';
 import mongoose, { Model } from 'mongoose';
 import { User, UserDocument } from './schemas/user.schema';
-import { Book } from '../book/book.schema';
+import { Book } from '../book/schemas/book.schema';
 import { Loan } from './schemas/loan.schema';
 
 @Injectable()
@@ -64,6 +64,7 @@ export class UserService {
       }
     } catch (error) {
       transactionSession.abortTransaction();
+      return { message: error.message };
     } finally {
       transactionSession.endSession();
     }

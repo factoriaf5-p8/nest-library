@@ -1,14 +1,17 @@
-import { Body, Controller, HttpCode, HttpStatus, Post } from '@nestjs/common';
+import { Controller, Post, Req, UseGuards } from '@nestjs/common';
 import { AuthService } from './auth/auth.service';
-import { SignInDto } from './auth/dto/signin-user.dto';
+import { AuthGuard } from '@nestjs/passport';
+import { Request } from 'express';
+import { User } from './user/schemas/user.schema';
+import { Types } from 'mongoose';
 
 @Controller()
 export class AppController {
   constructor(private authService: AuthService) {}
 
-  @HttpCode(HttpStatus.OK)
+  @UseGuards(AuthGuard('local'))
   @Post('auth/signin')
-  signIn(@Body() signInDto: SignInDto) {
-    return this.authService.signIn(signInDto);
+  signIn(@Req() req: Request) {
+    return this.authService.signIn(req.user as User & { _id: Types.ObjectId });
   }
 }

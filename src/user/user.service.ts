@@ -30,8 +30,8 @@ export class UserService {
     // return `This action returns a #${id} user`;
   }
 
-  findOne(username: string) {
-    return this.userModel.find({ username });
+  findOne(username: string): Promise<User> {
+    return this.userModel.findOne({ username }).lean().exec();
   }
   // update(id: number, updateUserDto: UpdateUserDto) {
   //   return `This action updates a #${id} user`;

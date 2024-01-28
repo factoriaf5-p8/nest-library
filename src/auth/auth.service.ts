@@ -1,23 +1,38 @@
 import { Injectable, UnauthorizedException } from '@nestjs/common';
 import { UserService } from '../user/user.service';
+import { JwtService } from '@nestjs/jwt';
 import { User } from '../user/schemas/user.schema';
-import { SignInDto } from './dto/signin-user.dto';
+import { compare } from 'bcrypt';
+import { Types } from 'mongoose';
 
 @Injectable()
 export class AuthService {
-  constructor(private userService: UserService) {}
+  constructor(
+    private userService: UserService,
+    private jwtService: JwtService,
+  ) {}
 
-  async signIn(signinDto: SignInDto): Promise<Partial<User>> {
+  async verifyPassword(password: string, hash: string) {
+    return compare(password, hash);
+  }
+
+  async validateUser(username: string, pass: string): Promise<Partial<User>> {
     // console.log(signinDto);
 
-    const { username, password: signInPassword } = signinDto;
-    const user = (await this.userService.findOne(username)) as unknown as User;
-    console.log(user);
+    const user = await this.userService.findOne(username);
 
-    if (user?.password !== signInPassword) throw new UnauthorizedException();
+    const passwordsEquals = await this.verifyPassword(pass, user?.password);
+    if (!passwordsEquals) throw new UnauthorizedException();
     // eslint-disable-next-line @typescript-eslint/no-unused-vars
     const { password, ...result } = user;
 
     return result;
+  }
+
+  signIn(user: User & { _id: Types.ObjectId }) {
+    const payload = { username: user.username, sub: user._id };
+    return {
+      access_token: this.jwtService.sign(payload),
+    };
   }
 }

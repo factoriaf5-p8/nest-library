@@ -7,10 +7,12 @@ import {
   Param,
   Delete,
   Req,
+  UseGuards,
 } from '@nestjs/common';
 import { Request } from 'express';
 import { UserService } from './user.service';
 import { CreateUserDto } from './dto/create-user.dto';
+import { AuthGuard } from '@nestjs/passport';
 // import { UpdateUserDto } from './dto/update-user.dto';
 
 @Controller('users')
@@ -42,6 +44,7 @@ export class UserController {
     return this.userService.remove(id);
   }
 
+  @UseGuards(AuthGuard('jwt'))
   @Post('borrow')
   borrowBook(@Req() request: Request) {
     return this.userService.borrowBook(

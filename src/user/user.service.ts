@@ -30,6 +30,9 @@ export class UserService {
     // return `This action returns a #${id} user`;
   }
 
+  findOne(username: string) {
+    return this.userModel.find({ username });
+  }
   // update(id: number, updateUserDto: UpdateUserDto) {
   //   return `This action updates a #${id} user`;
   // }

@@ -2,7 +2,7 @@ import { Module } from '@nestjs/common';
 import { BookService } from './book.service';
 import { BookController } from './book.controller';
 import { MongooseModule } from '@nestjs/mongoose';
-import { Book, BookSchema } from './entities/book.schema';
+import { Book, BookSchema } from './schemas/book.schema';
 
 @Module({
   imports: [
@@ -11,4 +11,4 @@ import { Book, BookSchema } from './entities/book.schema';
   controllers: [BookController],
   providers: [BookService],
 })
-export class BookModule {}
+export class BookModule { }

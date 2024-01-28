@@ -1,7 +1,21 @@
+<<<<<<< HEAD
 import { Controller, Get, Post, Body, Patch, Param, Delete } from '@nestjs/common';
 import { BookService } from './book.service';
 import { CreateBookDto } from './dto/create-book.dto';
 import { UpdateBookDto } from './dto/update-book.dto';
+=======
+import {
+  Body,
+  Controller,
+  Get,
+  Param,
+  Post,
+  Query,
+  Put,
+  Delete,
+} from '@nestjs/common';
+import { BookService } from './book.service';
+>>>>>>> f7ace85a5f1afe8c2a2323d8a78eec9adba4869c
 
 @Controller('books')
 export class BookController {

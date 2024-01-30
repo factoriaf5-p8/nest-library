@@ -1,48 +1,11 @@
-# NEST LIBRARY
+## Autenticación con Nest.js y Passport
 
-## Introduction
-NestJS is a framework for developing Node.js applications on the server side. It is programmed in TypeScript and provides an in-application architecture that allows the development of more maintainable applications. Its architecture is quite inspired by Angular, which makes the development team's work easier by not having to use two different ways of working in the backend and frontend.
-
-In this lab we will develop an API Rest over MySQL and MongoDB.
-
-## Lab Goals
-
-- Use the Nest CLI to create application components
-- Work with controllers and services
-- Create the basic CRUD methods of an application
-- Capture HTTP requests parameters
-- Use ORM entities (Object Relational Mappers), interfaces and DTOs (Data Transfer Objects)
-- Create a simple API with mocked data
-- Create database-based services
-- Use JWT as an access control mechanism
-- Use Swagger for API documentation
-- Record operations the application in log files
-
-## Data Model
-
-We will work with the next library model:
-
-![library-model](https://i.imgur.com/pNwBnr8.png)
-
-## Nest CLI installation
-```bash
-npm i -g @nestjs/cli
-```
-
-
-## Repo Installation
-
-- Clone the [git repository](https://github.com/factoriaf5-p8/nest-library.git):
-
-```bash
-$ pnpm install
-```
-
-## Running the app
-
-```bash
-# development
-$ pnpm run start
-```
-- This command starts the app with the HTTP server listening on the port defined in the src/main.ts file. Once the application is running, open your browser and navigate to http://localhost:3000/. You should see the **Hello World!** message.
-
+1. El backend recibe unas credenciales en una petición http:
+   1. Controller Post que recibe las credenciales en el body invoca al método AuthService.signin(), pasando las credenciales. **Ver paso 3**.
+   2. Decoramos el controller con un Guard de tipo strategia local de passport (significa que llama a la estrategia local de passport)
+      1. Crear la estrategia de passport con el método validate.
+      2. El meth. validate debe invocar al método validateUser del AuthService.
+      3. El método AuthService.validateUser debe llamar al método findUserByUsername del UserService para comprobar si existe un usuario con ese valor de username.
+      4. el método UserService.findUserByUsername() debe llamar al método del repositorio(modelo, etc.) para hacer la query a la bbdd con el valor del username --> this.userModel.findOne(username).lean().exec().
+   3. El controller invoca al método del AuthService que devuelve el token (AuthService.signin()).
+      1. El método AuthService.signin() invoca al método de la librería jwtService.sign(información del user) pasando la información del user que ha inyectado la estrategia passport-local para generar el token de respuesta.

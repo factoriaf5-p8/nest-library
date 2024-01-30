@@ -24,6 +24,16 @@ export class UserService {
     return this.userModel.find().exec();
     // return `This action returns all user`;
   }
+  //requerido para autenticar
+  async findOneByUsername(username: string) {
+    // console.log(username);
+
+    // const result = await this.userModel.findOne({ username });
+    // // console.log(result);
+    // return result;
+
+    return this.userModel.findOne({ username }).lean().exec();
+  }
 
   findOneById(id: string) {
     return this.userModel.findById(id);

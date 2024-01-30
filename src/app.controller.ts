@@ -12,6 +12,7 @@ export class AppController {
   @UseGuards(AuthGuard('local'))
   @Post('auth/signin')
   signIn(@Req() req: Request) {
+    //PASA ALGO: middleware
     return this.authService.signIn(req.user as User & { _id: Types.ObjectId });
   }
 }

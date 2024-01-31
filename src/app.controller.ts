@@ -10,7 +10,7 @@ export class AppController {
 
   @UseGuards(AuthGuard('local'))
   @Post('auth/signin')
-  async signin(@Req() req: Request) {
-    return this.authService.signin(req.user as User);
+  async signin(@Req() req: Request & { user: User }) {
+    return this.authService.signin(req.user);
   }
 }

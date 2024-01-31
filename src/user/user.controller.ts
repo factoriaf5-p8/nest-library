@@ -6,9 +6,14 @@ import {
   Put,
   Param,
   Delete,
+  UseGuards,
+  Req,
+  ForbiddenException,
 } from '@nestjs/common';
 import { UserService } from './user.service';
 import { CreateUserDto } from './dtos/create-user.dto';
+import { AuthGuard } from '@nestjs/passport';
+import { Request } from 'express';
 
 @Controller('users')
 export class UserController {
@@ -19,10 +24,15 @@ export class UserController {
     return this.userService.findAll();
   }
 
-  // @Get(':userId')
-  // findUser(@Param('userId') userId: string) {
-  //   return this.userService.findUser(userId);
-  // }
+  @UseGuards(AuthGuard('jwt'))
+  @Get(':userId')
+  findUser(
+    @Req() req: Request & { user: { userId: string; username: string } },
+    @Param('userId') userId: string,
+  ) {
+    if (req.user.userId !== userId) throw new ForbiddenException();
+    return this.userService.findUser(userId);
+  }
 
   @Post()
   create(@Body() createUserDto: CreateUserDto) {

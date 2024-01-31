@@ -8,6 +8,7 @@ import {
   Delete,
   Req,
   UseGuards,
+  ForbiddenException,
 } from '@nestjs/common';
 import { Request } from 'express';
 import { UserService } from './user.service';
@@ -31,7 +32,12 @@ export class UserController {
 
   @UseGuards(AuthGuard('jwt'))
   @Get(':id')
-  findOne(@Param('id') id: string) {
+  findOne(
+    @Req() req: Request & { user: { userId: string; username: string } },
+    @Param('id') id: string,
+  ) {
+    if (req.user.userId !== id) throw new ForbiddenException();
+
     return this.userService.findOneById(id);
   }
 

@@ -6,11 +6,11 @@ export default registerAs('database', () => {
     type: 'mysql',
     entities: ['dist/**/*.entity.js'],
     synchronize: true,
-    host: process.env.DB_HOST,
-    port: parseInt(process.env.DB_PORT),
-    database: process.env.DB_DATABASE,
-    username: process.env.DB_USERNAME,
-    password: process.env.DB_PASSWORD,
+    host: process.env.DB_HOST || 'localhost',
+    port: parseInt(process.env.DB_PORT) || 3306,
+    database: process.env.DB_DATABASE || 'library',
+    username: process.env.DB_USERNAME || 'root',
+    password: process.env.DB_PASSWORD || '',
   };
   return connectionOption;
 });

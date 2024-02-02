@@ -15,12 +15,17 @@ import { CreateUserDto } from './dtos/create-user.dto';
 import { AuthGuard } from '@nestjs/passport';
 import { Request } from 'express';
 import { ApiBearerAuth } from '@nestjs/swagger';
+import { Role } from '../auth/constants/role.enum';
+import { RolesGuard } from '../auth/guards/roles.guard';
+import { Roles } from '../auth/decorators/roles.decorator';
 
 @Controller('users')
 export class UserController {
   constructor(private readonly userService: UserService) {}
 
   @Get()
+  @Roles(Role.Admin)
+  @UseGuards(AuthGuard('jwt'), RolesGuard)
   findAll() {
     return this.userService.findAll();
   }

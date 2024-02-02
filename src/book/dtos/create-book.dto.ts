@@ -1,9 +1,26 @@
+import { ApiProperty } from '@nestjs/swagger';
+
 export class CreateBookDto {
-  title: string; // varchar(255) NOT NULL,
-  genre: string; // varchar(255) NOT NULL,
-  description: string; // varchar(255) NOT NULL,
-  author: string; // varchar(255) NOT NULL,
-  publisher: string; // varchar(255) NOT NULL,
-  pages: string; // int NOT NULL,
-  image_url: string; // varchar(255) NOT NULL,
+  @ApiProperty({ example: 'Don Quijote de la Mancha' })
+  readonly title: string;
+
+  @ApiProperty({ example: 'Novela' })
+  readonly genre: string;
+
+  @ApiProperty({
+    example: 'Esta edición del Ingenioso hidalgo don Quijote de la Mancha ...',
+  })
+  readonly description: string;
+
+  @ApiProperty({ example: 'Miguel de Cervantes' })
+  readonly author: string;
+
+  @ApiProperty({ example: 'Santillana' })
+  readonly publisher: string;
+
+  @ApiProperty({ example: 592 })
+  readonly pages: number;
+
+  @ApiProperty({ example: 'www.imagen.com/quijote.png' })
+  readonly image_url: string;
 }

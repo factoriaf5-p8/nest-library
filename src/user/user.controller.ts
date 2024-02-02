@@ -14,6 +14,7 @@ import { UserService } from './user.service';
 import { CreateUserDto } from './dtos/create-user.dto';
 import { AuthGuard } from '@nestjs/passport';
 import { Request } from 'express';
+import { ApiBearerAuth } from '@nestjs/swagger';
 
 @Controller('users')
 export class UserController {
@@ -26,6 +27,7 @@ export class UserController {
 
   @UseGuards(AuthGuard('jwt'))
   @Get(':userId')
+  @ApiBearerAuth('access-token')
   findUser(
     @Req() req: Request & { user: { userId: string; username: string } },
     @Param('userId') userId: string,

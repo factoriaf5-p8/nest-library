@@ -8,7 +8,7 @@ export class Book {
   @PrimaryGeneratedColumn('increment')
   id: number; // int NOT NULL AUTO_INCREMENT,
   @ApiProperty({ example: 'Don Quijote de la Mancha' })
-  @Column()
+  @Column({nullable:false})
   title: string; // varchar(255) NOT NULL,
   @ApiProperty({ example: 'Novela' })
   @Column()
@@ -26,7 +26,7 @@ export class Book {
   publisher: string; // varchar(255) NOT NULL,
   @ApiProperty({ example: 592 })
   @Column()
-  pages: string; // int NOT NULL,
+  pages: number; // int NOT NULL,
   @ApiProperty({ example: 'www.imagen.com/quijote.png' })
   @Column()
   image_url: string; // varchar(255) NOT NULL,

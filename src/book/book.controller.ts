@@ -6,6 +6,7 @@ import {
   // Patch,
   Param,
   Delete,
+  Query,
 } from '@nestjs/common';
 import { BookService } from './book.service';
 import { CreateBookDto } from './dto/create-book.dto';
@@ -13,16 +14,17 @@ import { CreateBookDto } from './dto/create-book.dto';
 
 @Controller('books')
 export class BookController {
-  constructor(private readonly bookService: BookService) {}
+  constructor(private readonly bookService: BookService) { }
 
   @Post()
   create(@Body() createBookDto: CreateBookDto) {
+    // return this.bookService.create(createBookDto);
     return this.bookService.create(createBookDto);
   }
 
   @Get()
-  findAll() {
-    return this.bookService.findAll();
+  findAll(@Query('limit') limit: number) {
+    return this.bookService.findAll(limit);
   }
 
   // @Get(':id')

@@ -14,8 +14,8 @@ export class BookService {
     // return 'This action adds a new book';
   }
 
-  findAll() {
-    return this.bookModel.find().exec();
+  findAll(limit: number) {
+    return this.bookModel.find().limit(limit).exec();
     // return `This action returns all book`;
   }
 

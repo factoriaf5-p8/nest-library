@@ -8,7 +8,7 @@ export class Book {
   @PrimaryGeneratedColumn('increment')
   id: number; // int NOT NULL AUTO_INCREMENT,
   @ApiProperty({ example: 'Don Quijote de la Mancha' })
-  @Column({nullable:false})
+  @Column({ nullable: false })
   title: string; // varchar(255) NOT NULL,
   @ApiProperty({ example: 'Novela' })
   @Column()

@@ -1,4 +1,4 @@
-import { Injectable } from '@nestjs/common';
+import { Injectable, NotFoundException } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository, FindManyOptions } from 'typeorm';
 import { Book } from './book.entity';
@@ -17,7 +17,10 @@ export class BookService {
     //return `findAll funciona límite de ${limit} registros`;
   }
   async findBook(bookId: string): Promise<Book> {
-    return this.bookRepository.findOneBy({ id: +bookId });
+
+    const result = await this.bookRepository.findOneBy({ id: +bookId });
+    if (!result) throw new NotFoundException('Book not found');
+    return result;
     //return `findBook funciona con el bookId = ${bookId}`;
     //select * from book where id = bookId
   }

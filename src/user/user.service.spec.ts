@@ -13,6 +13,7 @@ const mockUsers: User[] = [
     photo: '',
     role: 'user',
     loans: [],
+    hashPassword: () => Promise.resolve(),
   },
 ];
 describe('UserService', () => {

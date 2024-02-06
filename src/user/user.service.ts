@@ -12,7 +12,7 @@ export class UserService {
   constructor(
     @InjectConnection() private readonly connection: mongoose.Connection,
     @InjectModel(User.name) private userModel: Model<User>,
-    @InjectModel(Book.name) private bookModel: Model<User>,
+    @InjectModel(Book.name) private bookModel: Model<Book>,
   ) {}
 
   create(createUserDto: CreateUserDto) {
